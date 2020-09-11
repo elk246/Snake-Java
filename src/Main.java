@@ -6,6 +6,8 @@ public class Main {
         Gameboard gameboard= new Gameboard();
         Spawn spawn= new Spawn();
         spawn.setFruits(gameboard);
+        spawn.setSnake(gameboard);
+
         gameboard.printGameboard();
 
     }
