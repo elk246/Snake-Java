@@ -36,44 +36,38 @@ public class Gameboard {
     }
 
     public void checkRight() {
+        int count = 0;
+        int nothing = 0;
 
         for (int row = 0; row < gameboard1.length; row++) {
 
             for (int column = 0; column < gameboard1[row].length; column++) {
 
                 // check neighbours right
-
                 try {
-                    if (gameboard1[row][column] == 1 && gameboard1[row][column + 1] == 0) {
-                        gameboard1[row][column + 1] = 1;
+                    if (gameboard1[row][column] == 0 && gameboard1[row][column -1] == 1) {
+                        count++;
                     }
                 } catch (Exception e) {
                 }
+                if(count==1){
+                    gameboard1[row][column]=1;
             }
-        }
-    }
-
-    public void checkLeft() {
-
-        for (int row = 0; row < gameboard1.length; row++) {
-
-            for (int column = 0; column < gameboard1[row].length; column++) {
-
-        try {
-            if (gameboard1[row][column] == 1 && gameboard1[row][column - 1] == 0) {
-                gameboard1[row][column] = 0;
-            }
-        } catch (Exception e) {
-        }
-    }
-
-
-
-
-
+                try {
+                    if (gameboard1[row][column] == 0 && gameboard1[row][column -1] == 0) {
+                        nothing++;
+                    }
+                }catch(Exception e){
+                }
+                if(nothing==1){
+                    gameboard1[row][column]=0;
                 }
             }
         }
+    }
+}
+
+
 
 
 
