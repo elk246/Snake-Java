@@ -13,7 +13,9 @@ public class Gameboard {
         gameboard1[x][y] = 1;
     }
 
-    public void printGameboard() {
+    public void printGameboard() throws InterruptedException {
+
+        Thread.sleep(400);
 
         for (int row = 0; row < gameboard1.length; row++) {
             System.out.println("");
@@ -35,7 +37,7 @@ public class Gameboard {
         }
     }
 
-    public void checkRight() {
+    public void checkGame() {
         int count = 0;
         int nothing = 0;
 
@@ -43,18 +45,21 @@ public class Gameboard {
 
             for (int column = 0; column < gameboard1[row].length; column++) {
 
+
                 // check neighbours right
                 try {
                     if (gameboard1[row][column] == 0 && gameboard1[row][column -1] == 1) {
                         count++;
                     }
                 } catch (Exception e) {
+                    if (row == 0 && column >= 0 && column <= gameboard1[0].length - 1) {
+                    }
                 }
                 if(count==1){
                     gameboard1[row][column]=1;
             }
                 try {
-                    if (gameboard1[row][column] == 0 && gameboard1[row][column -1] == 0) {
+                    if (gameboard1[row][column] == 1 && gameboard1[row][column -1] == 0) {
                         nothing++;
                     }
                 }catch(Exception e){

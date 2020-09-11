@@ -10,6 +10,8 @@ public class Spawn extends Gameboard {
     public void setSnake(Gameboard game){
         game.setSnake(5,5);
         game.setSnake(5,6);
+        game.setSnake(5,7);
+        game.setSnake(5,8);
     }
 
 }

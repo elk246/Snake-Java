@@ -15,9 +15,11 @@ public class Main {
         gameboard.printGameboard();
         System.out.println("");
 
-        gameboard.checkRight();
-        gameboard.printGameboard();
-
+        while(true) {
+            gameboard.checkGame();
+            System.out.println("");
+            gameboard.printGameboard();
+        }
 
     }
 }
