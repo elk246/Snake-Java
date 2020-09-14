@@ -1,8 +1,18 @@
+import java.awt.*;
+import java.util.Scanner;
 public class Main {
 
 
 
     public static void main(String[] args) throws InterruptedException {
+
+        Scanner scan= new Scanner(System.in);
+        String Answer= " d ";
+
+
+
+
+
         // add new classes
         Gameboard gameboard= new Gameboard();
         Spawn spawn= new Spawn();
@@ -16,9 +26,22 @@ public class Main {
         System.out.println("");
 
         while(true) {
-            gameboard.checkGame();
+
+        Answer=scan.next();
+
+        if(Answer.equals("d")){
+            gameboard.checkGameRight();
             System.out.println("");
             gameboard.printGameboard();
+        }
+
+
+            if(Answer.equals(("a"))){
+                gameboard.checkLeft();
+                System.out.println("");
+                gameboard.printGameboard();
+            }
+
         }
 
     }
