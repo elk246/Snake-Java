@@ -30,8 +30,18 @@ public class Main {
 
             if (Answer.equals("d")) {
                 gameboard.snakeRight();
-                gameboard.printGameboard();
             }
+            if(Answer.equals("a")){
+                gameboard.snakeLeft();
+            }
+            if(Answer.equals("w")){
+                gameboard.snakeUp();
+            }
+            if(Answer.equals("s")){
+                gameboard.snakeDown();
+            }
+            gameboard.checkIfAlive();
+            gameboard.printGameboard();
         }
     }
 

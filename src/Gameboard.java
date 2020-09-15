@@ -6,8 +6,6 @@ import java.util.TimerTask;
 
 public class Gameboard {
 
-    // private int[] coordinates1={5,5,5};
-    //private int[] coordinates2={5,6,7};
 
     // count the snake length
     private static int count;
@@ -35,11 +33,10 @@ public class Gameboard {
     }
 
 
-
-    public void reduceCounter(){
+    public void reduceCounter() {
         for (int row = 0; row <= gameboard1.length - 1; row++) {
             for (int column = 0; column <= gameboard1[0].length - 1; column++) {
-                if(gameboard1[row][column].getCount()>0){
+                if (gameboard1[row][column].getCount() > 0) {
                     gameboard1[row][column].setCount(gameboard1[row][column].getCount() - 1);
                 }
             }
@@ -80,37 +77,97 @@ public class Gameboard {
 
             }
         }
-        System.out.println(gameboard1[5][5].getCount());
-        System.out.println(gameboard1[5][6].getCount());
-        System.out.println(gameboard1[5][7].getCount());
+    }
+
+    public void checkIfAlive() {
+        for (int row = 0; row < gameboard1.length; row++) {
+
+            for (int column = 0; column < gameboard1[row].length; column++) {
+                if (gameboard1[row][column].getCount() == 0) {
+                    gameboard1[row][column].setAlive(false);
+
+                }
+            }
+        }
     }
 
     public void snakeRight() {
         for (int row = 0; row < gameboard1.length; row++) {
             for (int column = 0; column < gameboard1[row].length; column++) {
-
                 if (gameboard1[row][column].isLeading()) {
                     reduceCounter();
-                    if(!gameboard1[row][column +1].isAlive()){
-                        gameboard1[row][column+1].setCount(3);
-                        gameboard1[row][column+1].setAlive(true);
-                        gameboard1[row][column+1].setLeading(true);
+                    if (!gameboard1[row][column + 1].isAlive()) {
+                        gameboard1[row][column + 1].setAlive(true);
+                        gameboard1[row][column + 1].setCount(3);
+                        gameboard1[row][column + 1].setLeading(true);
                         gameboard1[row][column].setLeading(false);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
-                        if(gameboard1[row][column].getCount() == 0){
-                            gameboard1[row][column].setAlive(false);
-                            //gameboard1[row][column].setCount(0);
-                        }
+    public void snakeLeft() {
+        for (int row = 0; row < gameboard1.length; row++) {
+            for (int column = 0; column < gameboard1[row].length; column++) {
+                if (gameboard1[row][column].isLeading()) {
+                    reduceCounter();
+                    if (!gameboard1[row][column - 1].isAlive()) {
+                        gameboard1[row][column - 1].setAlive(true);
+                        gameboard1[row][column - 1].setCount(3);
+                        gameboard1[row][column - 1].setLeading(true);
+                        gameboard1[row][column].setLeading(false);
+                        break;
+                    }
+                }
+            }
+
+        }
+    }
+
+    public void snakeUp() {
+        for (int row = 0; row < gameboard1.length; row++) {
+            for (int column = 0; column < gameboard1[row].length; column++) {
+                if (gameboard1[row][column].isLeading()) {
+                    reduceCounter();
+                    if (!gameboard1[row - 1][column].isAlive()) {
+                        gameboard1[row - 1][column].setAlive(true);
+                        gameboard1[row - 1][column].setCount(3);
+                        gameboard1[row - 1][column].setLeading(true);
+                        gameboard1[row][column].setLeading(false);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void snakeDown() {
+
+        for (int row = 0; row < gameboard1.length -1 ; row++) {
+            for (int column = 0; column < gameboard1[row].length -1; column++) {
+                if (gameboard1[row][column].isLeading()) {
+                    reduceCounter();
+                    if (!gameboard1[row +1][column].isAlive()) {
+                        gameboard1[row + 1][column].setAlive(true);
+                        gameboard1[row + 1][column].setCount(3);
+                        gameboard1[row + 1][column].setLeading(true);
+                        gameboard1[row][column].setLeading(false);
 
                         break;
                     }
                 }
-
-
             }
         }
     }
 }
+
+
+
+
+
+
 
 
 
