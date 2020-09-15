@@ -9,40 +9,17 @@ public class Main {
         Scanner scan= new Scanner(System.in);
         String Answer= " d ";
 
-
-
-
-
         // add new classes
         Gameboard gameboard= new Gameboard();
         Spawn spawn= new Spawn();
-
+        // create the gameboard
+        gameboard.createGameboard();
         //set all objects on gameboard
         spawn.setFruits(gameboard);
         spawn.setSnake(gameboard);
-
-        //first gameboard output
+        //print gameboard
         gameboard.printGameboard();
-        System.out.println("");
-
-        while(true) {
-
-        Answer=scan.next();
-
-        if(Answer.equals("d")){
-            gameboard.checkGameRight();
-            System.out.println("");
-            gameboard.printGameboard();
-        }
-
-
-            if(Answer.equals(("a"))){
-                gameboard.checkLeft();
-                System.out.println("");
-                gameboard.printGameboard();
-            }
-
         }
 
     }
-}
+
