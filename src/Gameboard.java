@@ -1,43 +1,52 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
-public class Gameboard{
+public class Gameboard {
 
+    // private int[] coordinates1={5,5,5};
+    //private int[] coordinates2={5,6,7};
+
+    // count the snake length
     private static int count;
 
-    private static Cell[][] gameboard1= new Cell[20][20];
+    //create gameboard array
+    private static Cell[][] gameboard1 = new Cell[20][20];
 
-    public static Cell[][] getGameboard1(){
+    //gameboard getter
+    public static Cell[][] getGameboard1() {
         return gameboard1;
     }
 
+    //set fruits
     public void setFruits(int x, int y) {
         gameboard1[x][y].setFruit(true);
     }
 
-    public void setSnake(int x, int y, int counter) {
-        gameboard1[x][y].setAlive(true);
+    public void leadingCell(int x, int y) {
+        gameboard1[x][y].setLeading(true);
     }
 
-    public void setSnake(int x, int y){
+    public void setSnake(int x, int y, int count) {
         gameboard1[x][y].setAlive(true);
-        gameboard1[x][y].setCount(getCount());
+        gameboard1[x][y].setCount(count);
     }
 
-    public static int getCount() {
+
+
+    public void reduceCounter(){
         for (int row = 0; row <= gameboard1.length - 1; row++) {
             for (int column = 0; column <= gameboard1[0].length - 1; column++) {
-
-                if (gameboard1[row][column].isAlive()) {
-                    count++;
+                if(gameboard1[row][column].getCount()>0){
+                    gameboard1[row][column].setCount(gameboard1[row][column].getCount() - 1);
                 }
             }
         }
-        return count;
     }
 
+    // create new gameboard
     public void createGameboard() throws InterruptedException {
 
         Thread.sleep(400);
@@ -45,11 +54,12 @@ public class Gameboard{
         for (int row = 0; row < gameboard1.length; row++) {
             for (int column = 0; column < gameboard1[row].length; column++) {
 
-                gameboard1[row][column]= new Cell();
+                gameboard1[row][column] = new Cell();
             }
         }
     }
 
+    //print gameboard
     public void printGameboard() {
         for (int row = 0; row < gameboard1.length; row++) {
 
@@ -63,15 +73,49 @@ public class Gameboard{
                     if (gameboard1[row][column].isAlive()) {
                         System.out.print(" \uD83D\uDC0D");
                     }
-                    if(gameboard1[row][column].isAlive()==false){
+                    if (gameboard1[row][column].isAlive() == false) {
                         System.out.print(" . ");
                     }
                 }
+
+            }
+        }
+        System.out.println(gameboard1[5][5].getCount());
+        System.out.println(gameboard1[5][6].getCount());
+        System.out.println(gameboard1[5][7].getCount());
+    }
+
+    public void snakeRight() {
+        for (int row = 0; row < gameboard1.length; row++) {
+            for (int column = 0; column < gameboard1[row].length; column++) {
+
+                if (gameboard1[row][column].isLeading()) {
+                    reduceCounter();
+                    if(!gameboard1[row][column +1].isAlive()){
+                        gameboard1[row][column+1].setCount(3);
+                        gameboard1[row][column+1].setAlive(true);
+                        gameboard1[row][column+1].setLeading(true);
+                        gameboard1[row][column].setLeading(false);
+
+                        if(gameboard1[row][column].getCount() == 0){
+                            gameboard1[row][column].setAlive(false);
+                            //gameboard1[row][column].setCount(0);
+                        }
+
+                        break;
+                    }
+                }
+
+
             }
         }
     }
-
 }
+
+
+
+
+
 
 
 
