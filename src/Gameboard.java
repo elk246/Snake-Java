@@ -8,13 +8,13 @@ public class Gameboard {
 
 
     // count the snake length
-    private static int count;
+    private  int count;
 
     //create gameboard array
-    private static Cell[][] gameboard1 = new Cell[20][20];
+    private  Cell[][] gameboard1 = new Cell[20][20];
 
     //gameboard getter
-    public static Cell[][] getGameboard1() {
+    public  Cell[][] getGameboard1() {
         return gameboard1;
     }
 
@@ -101,7 +101,8 @@ public class Gameboard {
                         gameboard1[row][column + 1].setCount(3);
                         gameboard1[row][column + 1].setLeading(true);
                         gameboard1[row][column].setLeading(false);
-                        break;
+
+                    break;
                     }
                 }
             }
@@ -136,6 +137,9 @@ public class Gameboard {
                         gameboard1[row - 1][column].setCount(3);
                         gameboard1[row - 1][column].setLeading(true);
                         gameboard1[row][column].setLeading(false);
+
+                        System.out.println(row);
+                        System.out.println(column);
                         break;
                     }
                 }
@@ -144,9 +148,10 @@ public class Gameboard {
     }
 
     public void snakeDown() {
+        int counter = 0;
 
-        for (int row = 0; row < gameboard1.length -1 ; row++) {
-            for (int column = 0; column < gameboard1[row].length -1; column++) {
+        for (int row = 0; row < gameboard1.length -1  ; row++) {
+            for (int column = 0; column < gameboard1[row].length ; column++) {
                 if (gameboard1[row][column].isLeading()) {
                     reduceCounter();
                     if (!gameboard1[row +1][column].isAlive()) {
@@ -155,11 +160,14 @@ public class Gameboard {
                         gameboard1[row + 1][column].setLeading(true);
                         gameboard1[row][column].setLeading(false);
 
-                        break;
+                        System.out.println(row);
+                        System.out.println(column);
+                        return;
                     }
                 }
             }
         }
+        System.out.println("test " + counter);
     }
 }
 
