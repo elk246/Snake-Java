@@ -36,17 +36,6 @@ public class Gameboard {
         gameboard1[x][y].setAlive(true);
         gameboard1[x][y].setCount(count);
     }
-
-
-    public void increaseCounter() {
-        for (int row = 0; row <= gameboard1.length - 1; row++) {
-            for (int column = 0; column <= gameboard1[0].length - 1; column++) {
-                if (gameboard1[row][column].getCount() >= 0) {
-                    gameboard1[row][column].setCount(gameboard1[row][column].getCount() + 1);
-                }
-            }
-        }
-    }
     public void reduceCounter() {
         for (int row = 0; row <= gameboard1.length - 1; row++) {
             for (int column = 0; column <= gameboard1[0].length - 1; column++) {
@@ -97,7 +86,6 @@ public class Gameboard {
             }
         }
     }
-
     public void checkIfAlive() {
         for (int row = 0; row < gameboard1.length; row++) {
 
@@ -130,6 +118,12 @@ public class Gameboard {
                             setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
                             gameboard1[row][column + 1].setCount(gameboard1[row][column].getCount() + 1);
                             gameboard1[row][column + 1].setLeading(true);
+                        }
+                        if(gameboard1[row][column +1].isAlive() && gameboard1[row][column].isLeading()){
+                            System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
+                            System.out.println("\uD83D\uDD01 Moves: " + moves);
+                            System.out.println("\uD83C\uDFC6 Score: "+score);
+                            System.exit(0);
                         }
                         return;
 
@@ -165,6 +159,12 @@ public class Gameboard {
                             gameboard1[row][column - 1].setCount(gameboard1[row][column].getCount() + 1);
                             gameboard1[row][column - 1].setLeading(true);
                         }
+                        if(gameboard1[row][column -1].isAlive() && gameboard1[row][column].isLeading()){
+                            System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
+                            System.out.println("\uD83D\uDD01 Moves: " + moves);
+                            System.out.println("\uD83C\uDFC6 Score: "+score);
+                            System.exit(0);
+                        }
                         return;
 
 
@@ -194,13 +194,20 @@ public class Gameboard {
                             reduceCounter();
                         } else if (gameboard1[row - 1][column].isFruit()) {
                             score++;
-                            System.out.println(score);
-                            gameboard1[row - 1][column].setAlive(true);
-                            gameboard1[row - 1][column].setFruit(false);
+                            gameboard1[row][column].setLeading(false);
+                            gameboard1[row -1][column].setAlive(true);
+                            gameboard1[row-1][column].setFruit(false);
                             setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
-                            gameboard1[row - 1][column].setCount(gameboard1[row][column].getCount() + 1);
-                            gameboard1[row - 1][column].setLeading(true);
+                            gameboard1[row-1][column].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row-1][column].setLeading(true);
                         }
+                        if(gameboard1[row -1][column].isAlive() && gameboard1[row][column].isLeading()){
+                            System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
+                            System.out.println("\uD83D\uDD01 Moves: " + moves);
+                            System.out.println("\uD83C\uDFC6 Score: "+score);
+                            System.exit(0);
+                        }
+
                         return;
 
                     } catch (Exception e) {
@@ -234,6 +241,12 @@ public class Gameboard {
                             setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
                             gameboard1[row + 1][column].setCount(gameboard1[row][column].getCount() + 1);
                             gameboard1[row + 1][column].setLeading(true);
+                        }
+                        if(gameboard1[row+1][column].isAlive() && gameboard1[row][column].isLeading()){
+                            System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
+                            System.out.println("\uD83D\uDD01 Moves: " + moves);
+                            System.out.println("\uD83C\uDFC6 Score: "+score);
+                            System.exit(0);
                         }
                             return;
 
