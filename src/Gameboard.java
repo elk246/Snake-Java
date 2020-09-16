@@ -7,8 +7,12 @@ import java.util.TimerTask;
 public class Gameboard {
 
 
+
     // count the snake length
     private  int count;
+    private int moves;
+    private int score;
+    private boolean isASnake;
 
     //create gameboard array
     private  Cell[][] gameboard1 = new Cell[20][20];
@@ -20,6 +24,7 @@ public class Gameboard {
 
     //set fruits
     public void setFruits(int x, int y) {
+
         gameboard1[x][y].setFruit(true);
     }
 
@@ -33,6 +38,15 @@ public class Gameboard {
     }
 
 
+    public void increaseCounter() {
+        for (int row = 0; row <= gameboard1.length - 1; row++) {
+            for (int column = 0; column <= gameboard1[0].length - 1; column++) {
+                if (gameboard1[row][column].getCount() >= 0) {
+                    gameboard1[row][column].setCount(gameboard1[row][column].getCount() + 1);
+                }
+            }
+        }
+    }
     public void reduceCounter() {
         for (int row = 0; row <= gameboard1.length - 1; row++) {
             for (int column = 0; column <= gameboard1[0].length - 1; column++) {
@@ -66,13 +80,18 @@ public class Gameboard {
 
                 if (gameboard1[row][column].isFruit()) {
                     System.out.print(" \uD83C\uDF4E");
+
                 } else {
                     if (gameboard1[row][column].isAlive()) {
                         System.out.print(" \uD83D\uDC0D");
                     }
-                    if (gameboard1[row][column].isAlive() == false) {
+
+
+                    if (!gameboard1[row][column].isAlive()) {
                         System.out.print(" . ");
                     }
+
+
                 }
 
             }
@@ -92,17 +111,33 @@ public class Gameboard {
     }
 
     public void snakeRight() {
+        moves++;
         for (int row = 0; row < gameboard1.length; row++) {
             for (int column = 0; column < gameboard1[row].length; column++) {
                 if (gameboard1[row][column].isLeading()) {
-                    reduceCounter();
-                    if (!gameboard1[row][column + 1].isAlive()) {
-                        gameboard1[row][column + 1].setAlive(true);
-                        gameboard1[row][column + 1].setCount(3);
-                        gameboard1[row][column + 1].setLeading(true);
-                        gameboard1[row][column].setLeading(false);
+                    try {
+                        if (!gameboard1[row][column + 1].isAlive() && !gameboard1[row][column + 1].isFruit()) {
+                            gameboard1[row][column + 1].setAlive(true);
+                            gameboard1[row][column + 1].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row][column + 1].setLeading(true);
+                            gameboard1[row][column].setLeading(false);
+                            reduceCounter();
+                        } else if (gameboard1[row][column + 1].isFruit()) {
+                            score++;
+                            gameboard1[row][column].setLeading(false);
+                            gameboard1[row][column + 1].setAlive(true);
+                            gameboard1[row][column + 1].setFruit(false);
+                            setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
+                            gameboard1[row][column + 1].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row][column + 1].setLeading(true);
+                        }
+                        return;
 
-                    break;
+                    }catch(Exception e){
+                        System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
+                        System.out.println("\uD83D\uDD01 Moves: " + moves);
+                        System.out.println("\uD83C\uDFC6 Score: "+score);
+                        System.exit(0);
                     }
                 }
             }
@@ -110,64 +145,107 @@ public class Gameboard {
     }
 
     public void snakeLeft() {
+        moves++;
         for (int row = 0; row < gameboard1.length; row++) {
             for (int column = 0; column < gameboard1[row].length; column++) {
                 if (gameboard1[row][column].isLeading()) {
-                    reduceCounter();
-                    if (!gameboard1[row][column - 1].isAlive()) {
-                        gameboard1[row][column - 1].setAlive(true);
-                        gameboard1[row][column - 1].setCount(3);
-                        gameboard1[row][column - 1].setLeading(true);
-                        gameboard1[row][column].setLeading(false);
-                        break;
+                    try {
+                        if (!gameboard1[row][column - 1].isAlive() && !gameboard1[row][column - 1].isFruit()) {
+                            gameboard1[row][column - 1].setAlive(true);
+                            gameboard1[row][column - 1].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row][column - 1].setLeading(true);
+                            gameboard1[row][column].setLeading(false);
+                            reduceCounter();
+                        } else if (gameboard1[row][column - 1].isFruit()) {
+                            score++;
+                            gameboard1[row][column].setLeading(false);
+                            gameboard1[row][column - 1].setAlive(true);
+                            gameboard1[row][column - 1].setFruit(false);
+                            setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
+                            gameboard1[row][column - 1].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row][column - 1].setLeading(true);
+                        }
+                        return;
+
+
+                    }catch ( Exception e){
+                        System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
+                        System.out.println("\uD83D\uDD01 Moves: " + moves);
+                        System.out.println("\uD83C\uDFC6 Score: "+score);
+                        System.exit(0);
                     }
+
                 }
             }
-
         }
     }
-
     public void snakeUp() {
+        moves++;
         for (int row = 0; row < gameboard1.length; row++) {
             for (int column = 0; column < gameboard1[row].length; column++) {
-                if (gameboard1[row][column].isLeading()) {
-                    reduceCounter();
-                    if (!gameboard1[row - 1][column].isAlive()) {
-                        gameboard1[row - 1][column].setAlive(true);
-                        gameboard1[row - 1][column].setCount(3);
-                        gameboard1[row - 1][column].setLeading(true);
-                        gameboard1[row][column].setLeading(false);
 
-                        System.out.println(row);
-                        System.out.println(column);
-                        break;
+                if (gameboard1[row][column].isLeading()) {
+                    try {
+                        if (!gameboard1[row - 1][column].isAlive() && !gameboard1[row -1][column].isFruit()) {
+                            gameboard1[row - 1][column].setAlive(true);
+                            gameboard1[row - 1][column].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row - 1][column].setLeading(true);
+                            gameboard1[row][column].setLeading(false);
+                            reduceCounter();
+                        } else if (gameboard1[row - 1][column].isFruit()) {
+                            score++;
+                            System.out.println(score);
+                            gameboard1[row - 1][column].setAlive(true);
+                            gameboard1[row - 1][column].setFruit(false);
+                            setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
+                            gameboard1[row - 1][column].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row - 1][column].setLeading(true);
+                        }
+                        return;
+
+                    } catch (Exception e) {
+                        System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
+                        System.out.println("\uD83D\uDD01 Moves: " + moves);
+                        System.out.println("\uD83C\uDFC6 Score: "+score);
+                        System.exit(0);
                     }
                 }
             }
         }
     }
 
-    public void snakeDown() {
-        int counter = 0;
-
-        for (int row = 0; row < gameboard1.length -1  ; row++) {
+    public void snakeDown(){
+        moves++;
+        for (int row = 0; row < gameboard1.length; row++) {
             for (int column = 0; column < gameboard1[row].length ; column++) {
                 if (gameboard1[row][column].isLeading()) {
-                    reduceCounter();
-                    if (!gameboard1[row +1][column].isAlive()) {
-                        gameboard1[row + 1][column].setAlive(true);
-                        gameboard1[row + 1][column].setCount(3);
-                        gameboard1[row + 1][column].setLeading(true);
-                        gameboard1[row][column].setLeading(false);
+                    try {
+                        if (!gameboard1[row + 1][column].isAlive() && !gameboard1[row +1][column].isFruit()) {
+                            gameboard1[row + 1][column].setAlive(true);
+                            gameboard1[row + 1][column].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row + 1][column].setLeading(true);
+                            gameboard1[row][column].setLeading(false);
+                            reduceCounter();
+                        } else if (gameboard1[row + 1][column].isFruit()) {
+                            score++;
+                            gameboard1[row][column].setLeading(false);
+                            gameboard1[row + 1][column].setAlive(true);
+                            gameboard1[row + 1][column].setFruit(false);
+                            setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
+                            gameboard1[row + 1][column].setCount(gameboard1[row][column].getCount() + 1);
+                            gameboard1[row + 1][column].setLeading(true);
+                        }
+                            return;
 
-                        System.out.println(row);
-                        System.out.println(column);
-                        return;
+                    }catch(Exception e){
+                        System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
+                        System.out.println("\uD83D\uDD01 Moves: " + moves);
+                        System.out.println("\uD83C\uDFC6 Score: "+score);
+                        System.exit(0);
                     }
                 }
             }
         }
-        System.out.println("test " + counter);
     }
 }
 

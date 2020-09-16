@@ -6,7 +6,6 @@ public class Cell {
     private boolean isLeading= false;
 
 
-
     //getter leading
     public boolean isLeading() {
         return isLeading;
