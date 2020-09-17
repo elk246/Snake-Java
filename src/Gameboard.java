@@ -3,26 +3,23 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Gameboard {
 
 
-
     // count the snake length
-    private  int count;
+    private int count;
     private int moves;
     private int score;
     private boolean isASnake;
 
     //create gameboard array
-    private  Cell[][] gameboard1 = new Cell[20][20];
+    private Cell[][] gameboard1 = new Cell[20][20];
 
     //gameboard getter
-    public  Cell[][] getGameboard1() {
+    public Cell[][] getGameboard1() {
         return gameboard1;
     }
 
@@ -40,6 +37,7 @@ public class Gameboard {
         gameboard1[x][y].setAlive(true);
         gameboard1[x][y].setCount(count);
     }
+
     public void reduceCounter() {
         for (int row = 0; row <= gameboard1.length - 1; row++) {
             for (int column = 0; column <= gameboard1[0].length - 1; column++) {
@@ -62,88 +60,70 @@ public class Gameboard {
             }
         }
     }
+
     //check input
-    public String[] checkInput() {
-
+    public void checkInput(int speed) {
+        char move=0;
+        char prev_move = 0;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
-        String[] player = new String[2];
-        char a = 0;
-        try {
-            a = bufferedReader.readLine().charAt(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String input = String.valueOf(a);
-
-        for (int i = 0; i < input.length(); i++) {
-            if (input.equals("w") || input.equals("a") || input.equals("s") || input.equals("d")) {
-                char userOne = input.charAt(i);
-                player[0] = String.valueOf(userOne);
-                break;
-            }
-            return player;
-        }
-        return player;
-
-    }
-
-    //check input for movement
-    public void SnakeMove(int speed) {
-
-
-        TimerTask task= new TimerTask() {
+        TimerTask timerTask = new TimerTask() {
+            @Override
             public void run() {
                 try {
                     Robot robot = new Robot();
-
-                    // Simulate a key press
-
                     robot.keyPress(KeyEvent.VK_ENTER);
                     robot.keyRelease(KeyEvent.VK_ENTER);
-
                 } catch (AWTException e) {
                     e.printStackTrace();
                 }
             }
         };
-        Timer timer= new Timer();
-        timer.schedule( task, speed);
 
+        Timer timer = new Timer();
+        timer.schedule(timerTask, speed);
+        try {
+            move = bufferedReader.readLine().charAt(0);
+            timerTask.cancel();
 
-        try{
-            String[] player=checkInput();
-            timer.cancel();
+            if (move == 's' && prev_move == 'w') {
+                move = prev_move;
+            } else {
+                prev_move = move;
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+            move = prev_move;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-            if(player[0].equals("w")){
+        try {
+            if (move == 'w') {
 
                 snakeUp();
                 checkIfAlive();
                 printGameboard();
-
-
             }
-            if(player[0].equals("s")){
+            if (move == 's') {
                 snakeDown();
                 checkIfAlive();
                 printGameboard();
             }
-            if(player[0].equals("a")){
+            if (move == 'a') {
                 snakeLeft();
                 checkIfAlive();
                 printGameboard();
             }
-            if(player[0].equals("d")){
+            if (move == 'd') {
                 snakeRight();
                 checkIfAlive();
                 printGameboard();
 
             }
-        }catch(Exception e){
+        } catch (Exception e) {
+
         }
     }
+
 
     //print gameboard
     public void printGameboard() {

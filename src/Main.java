@@ -22,12 +22,12 @@ public class Main {
         spawn.setFruits(gameboard);
         spawn.setSnake(gameboard);
 
-
+        System.out.println("Press ENTER to start snake");
     while(true) {
         System.out.println("");
         gameboard.printGameboard();
 
-        gameboard.SnakeMove(1000);
+        gameboard.checkInput(1000);
         gameboard.checkIfAlive();
 
 }
