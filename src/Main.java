@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Arrays;
 import java.util.Scanner;
 public class Main {
@@ -8,12 +10,10 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
 
-        Scanner scan = new Scanner(System.in);
-        String Answer = " d ";
-
         // add new classes
         Gameboard gameboard = new Gameboard();
         Spawn spawn = new Spawn();
+
 
         // create the gameboard
         gameboard.createGameboard();
@@ -22,27 +22,17 @@ public class Main {
         spawn.setFruits(gameboard);
         spawn.setSnake(gameboard);
 
-        //print gameboard
+
+    while(true) {
+        System.out.println("");
         gameboard.printGameboard();
 
-        while (true) {
-            Answer = scan.next();
+        gameboard.SnakeMove(1000);
+        gameboard.checkIfAlive();
 
-            if (Answer.equals("d")) {
-                gameboard.snakeRight();
-            }
-            if(Answer.equals("a")){
-                gameboard.snakeLeft();
-            }
-            if(Answer.equals("w")){
-                gameboard.snakeUp();
-            }
-            if(Answer.equals("s")){
-                gameboard.snakeDown();
-            }
-            gameboard.checkIfAlive();
-            gameboard.printGameboard();
-        }
+}
+
+
     }
 
 }

@@ -1,5 +1,7 @@
 public class Spawn extends Gameboard {
 
+
+
     public void setFruits(Gameboard game){
 
         game.setFruits((int)(Math.random()* getGameboard1().length),(int)(Math.random()* getGameboard1().length));
@@ -11,6 +13,13 @@ public class Spawn extends Gameboard {
         game.setSnake(5,7,3);
 
         game.leadingCell(5,7);
+
+    }
+
+    public void setBonus(Gameboard game){
+        int random= (int)(Math.random()* 80);
+
+
 
     }
 

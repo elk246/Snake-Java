@@ -1,7 +1,11 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class Gameboard {
@@ -56,6 +60,88 @@ public class Gameboard {
 
                 gameboard1[row][column] = new Cell();
             }
+        }
+    }
+    //check input
+    public String[] checkInput() {
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        String[] player = new String[2];
+        char a = 0;
+        try {
+            a = bufferedReader.readLine().charAt(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String input = String.valueOf(a);
+
+        for (int i = 0; i < input.length(); i++) {
+            if (input.equals("w") || input.equals("a") || input.equals("s") || input.equals("d")) {
+                char userOne = input.charAt(i);
+                player[0] = String.valueOf(userOne);
+                break;
+            }
+            return player;
+        }
+        return player;
+
+    }
+
+    //check input for movement
+    public void SnakeMove(int speed) {
+
+
+        TimerTask task= new TimerTask() {
+            public void run() {
+                try {
+                    Robot robot = new Robot();
+
+                    // Simulate a key press
+
+                    robot.keyPress(KeyEvent.VK_ENTER);
+                    robot.keyRelease(KeyEvent.VK_ENTER);
+
+                } catch (AWTException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Timer timer= new Timer();
+        timer.schedule( task, speed);
+
+
+        try{
+            String[] player=checkInput();
+            timer.cancel();
+
+
+            if(player[0].equals("w")){
+
+                snakeUp();
+                checkIfAlive();
+                printGameboard();
+
+
+            }
+            if(player[0].equals("s")){
+                snakeDown();
+                checkIfAlive();
+                printGameboard();
+            }
+            if(player[0].equals("a")){
+                snakeLeft();
+                checkIfAlive();
+                printGameboard();
+            }
+            if(player[0].equals("d")){
+                snakeRight();
+                checkIfAlive();
+                printGameboard();
+
+            }
+        }catch(Exception e){
         }
     }
 

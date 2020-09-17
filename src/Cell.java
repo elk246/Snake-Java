@@ -4,7 +4,16 @@ public class Cell {
     private boolean isFruit= false;
     private int count = 0;
     private boolean isLeading= false;
+    private boolean bonus= false;
 
+
+    public boolean isBonus() {
+        return bonus;
+    }
+
+    public void setBonus(boolean bonus) {
+        this.bonus = bonus;
+    }
 
     //getter leading
     public boolean isLeading() {
