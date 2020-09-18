@@ -49,10 +49,6 @@ public class Gameboard {
             }
         }
     }
-
-
-
-
     // create new gameboard
     public void createGameboard() {
 
@@ -66,62 +62,77 @@ public class Gameboard {
 
 
     //check input
-    public void checkInput(int speed) {
-        char move=0;
-        char prev_move = 0;
+    public void checkInput(int speed) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                } catch (AWTException e) {
-                    e.printStackTrace();
+        char move = 'd';
+        char prev_move = 'd';
+
+
+        while (true) {
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        Robot robot = new Robot();
+                        robot.keyPress(KeyEvent.VK_ENTER);
+                        robot.keyRelease(KeyEvent.VK_ENTER);
+                    } catch (AWTException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        };
+            };
 
-        Timer timer = new Timer();
-        timer.schedule(timerTask, speed);
-        try {
-            move = bufferedReader.readLine().charAt(0);
-            timerTask.cancel();
+            Timer timer = new Timer();
+            timer.schedule(timerTask, speed);
+            try {
 
-            if (move == '0' && prev_move == 'w') {
+
+                move = bufferedReader.readLine().charAt(0);
+
+
+                timerTask.cancel();
+
+                if (move == 's' && prev_move == 'w') {
+                    move = prev_move;
+                } else {
+                    prev_move = move;
+                }
+
+            } catch (StringIndexOutOfBoundsException e) {
                 move = prev_move;
-            } else {
-                prev_move = move;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (StringIndexOutOfBoundsException e) {
-            move = prev_move;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (move == 'w') {
+            try {
 
-                snakeUp();
-                checkIfAlive();
-                printGameboard();
+                if (move == 'w') {
+                    move = prev_move;
+                    snakeUp();
+                    checkIfAlive();
+                    printGameboard();
+                }
+                if (move == 's') {
+                    move = prev_move;
+                    snakeDown();
+                    checkIfAlive();
+                    printGameboard();
+                }
+                if (move == 'a') {
+                    move = prev_move;
+                    snakeLeft();
+                    checkIfAlive();
+                    printGameboard();
+                }
+                if (move == 'd') {
+                    move = prev_move;
+                    snakeRight();
+                    checkIfAlive();
+                    printGameboard();
+                }
+
+
+            } catch (Exception e) {
             }
-            if (move == 's') {
-                snakeDown();
-                checkIfAlive();
-                printGameboard();
-            }
-            if (move == 'a') {
-                snakeLeft();
-                checkIfAlive();
-                printGameboard();
-            }
-            if (move == 'd') {
-                snakeRight();
-                checkIfAlive();
-                printGameboard();
-            }
-        } catch (Exception e) {
         }
     }
 
