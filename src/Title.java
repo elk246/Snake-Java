@@ -1,13 +1,15 @@
 public class Title extends Gameboard{
 
+    //Cells for title
     private Cell[][] title= new Cell[10][24];
 
-
+    //Font for title
     public void setFont(int x, int y){
 
     title[x][y].setAlive(true);
     }
 
+    //create title field
     public void createTitle() {
         for (int row = 0; row < title.length; row++) {
             for (int column = 0; column < title[row].length; column++) {
@@ -16,6 +18,7 @@ public class Title extends Gameboard{
         }
     }
 
+    //print title field
     public void printTitle(){
         for (int row = 0; row < title.length; row++) {
             System.out.println(

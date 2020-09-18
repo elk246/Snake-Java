@@ -1,20 +1,24 @@
 public class Spawn extends Gameboard{
 
 
-
+    //method for set fruits
     public void setFruits(Gameboard game){
 
         game.setFruits((int)(Math.random()* getGameboard1().length),(int)(Math.random()* getGameboard1().length));
     }
 
+    //method for set snake
     public void setSnake(Gameboard game){
         game.setSnake(5,5,1);
         game.setSnake(5,6,2);
         game.setSnake(5,7,3);
 
+        //set first leading snake cell
         game.leadingCell(5,7);
 
     }
+
+    //set coordinates for font (title screen)
     public void setFont(Title title){
         title.setFont(2, 1);
         title.setFont(2, 2);
@@ -75,8 +79,13 @@ public class Spawn extends Gameboard{
         title.setFont(6, 21);
     }
 
+    //method for set bonus
     public void setBonus(Gameboard game){
-        int random= (int)(Math.random()* 80);
+        int random= (int)(Math.random()* 20);
+
+        if(random == 20 ||random== 15 ||random== 5){
+            game.setBonus((int)(Math.random()* getGameboard1().length),(int)(Math.random()* getGameboard1().length));
+        }
 
 
 

@@ -10,6 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
+
         Scanner scan = new Scanner(System.in);
         String answer;
 
@@ -23,12 +24,14 @@ public class Main {
         title.printTitle();
 
         System.out.println("");
+        System.out.println("\u001B[36m");
         System.out.println(" _____                          _____    _                _                _   \n" +
                 "|  __ \\                        / ____|  | |              | |              | |  \n" +
                 "| |__) |_ __  ___  ___  ___   | (___    | |_  ___    ___ | |_  __ _  _ __ | |_ \n" +
                 "|  ___/| '__|/ _ \\/ __|/ __|   \\___ \\   | __|/ _ \\  / __|| __|/ _` || '__|| __|\n" +
                 "| |    | |  |  __/\\__ \\\\__ \\   ____) |  | |_| (_) | \\__ \\| |_| (_| || |   | |_ \n" +
                 "|_|    |_|   \\___||___/|___/  |_____/    \\__|\\___/  |___/ \\__|\\__,_||_|    \\__|");
+        System.out.println("\u001B[0m");
         answer = scan.next();
 
 
@@ -41,6 +44,7 @@ public class Main {
 
             spawn.setFruits(gameboard);
             spawn.setSnake(gameboard);
+            spawn.setBonus(gameboard);
 
             gameboard.checkInput(500);
             while (true) {

@@ -9,7 +9,7 @@ import java.util.TimerTask;
 public class Gameboard {
 
 
-    // count the snake length
+    // counter for score and moves
     private int moves;
     private int score;
 
@@ -24,22 +24,28 @@ public class Gameboard {
         return gameboard1;
     }
 
-    //set fruits
-    public void setFruits(int x, int y) {
+    //set bonus method
+    public void setBonus(int x, int y){
+        gameboard1[x][y].setBonus(true);
+    }
 
+    //set fruit method
+    public void setFruits(int x, int y) {
         gameboard1[x][y].setFruit(true);
     }
 
+    //set leading cell method
     public void leadingCell(int x, int y) {
-
         gameboard1[x][y].setLeading(true);
     }
 
+    //set snake method
     public void setSnake(int x, int y, int count) {
         gameboard1[x][y].setAlive(true);
         gameboard1[x][y].setCount(count);
     }
 
+    //method for reduce snake counter
     public void reduceCounter() {
         for (int row = 0; row <= gameboard1.length - 1; row++) {
             for (int column = 0; column <= gameboard1[0].length - 1; column++) {
@@ -49,6 +55,7 @@ public class Gameboard {
             }
         }
     }
+
     // create new gameboard
     public void createGameboard() {
 
@@ -61,16 +68,19 @@ public class Gameboard {
     }
 
 
-    //check input
+    //check input for snake movement
     public void checkInput(int speed) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        //input char
         char move = 'd';
+        //char for previous input if no input // save the move char
         char prev_move = 'd';
 
 
         while (true) {
             TimerTask timerTask = new TimerTask() {
                 @Override
+                //set robot for ENTER
                 public void run() {
                     try {
                         Robot robot = new Robot();
@@ -81,7 +91,6 @@ public class Gameboard {
                     }
                 }
             };
-
             Timer timer = new Timer();
             timer.schedule(timerTask, speed);
             try {
@@ -99,12 +108,13 @@ public class Gameboard {
                 }
 
             } catch (StringIndexOutOfBoundsException e) {
+                //set move to prev_move
                 move = prev_move;
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-
+                //check the input for movement
                 if (move == 'w') {
                     move = prev_move;
                     snakeUp();
@@ -129,8 +139,6 @@ public class Gameboard {
                     checkIfAlive();
                     printGameboard();
                 }
-
-
             } catch (Exception e) {
             }
         }
@@ -139,27 +147,26 @@ public class Gameboard {
     //print gameboard
     public void printGameboard() {
         for (int row = 0; row < gameboard1.length; row++) {
-
             System.out.println("");
-
             for (int column = 0; column < gameboard1[row].length; column++) {
 
+                //check alive, dead or fruit
                 if (gameboard1[row][column].isFruit()) {
                     System.out.print(" \uD83C\uDF4E");
-
                 } else {
                     if (gameboard1[row][column].isAlive()) {
                         System.out.print(" \uD83D\uDC0D");
                     }
-
-
                     if (!gameboard1[row][column].isAlive()) {
                         System.out.print(" . ");
                     }
+
+
                 }
             }
         }
     }
+    //check the counter if <0= set dead
     public void checkIfAlive() {
         for (int row = 0; row < gameboard1.length; row++) {
 
@@ -171,6 +178,20 @@ public class Gameboard {
             }
         }
     }
+
+    //generate a new random fruit in gameboard
+    public void generateFruit(){
+        int x= (int)(Math.random()* getGameboard1().length);
+        int y= (int)(Math.random()* getGameboard1().length);
+
+        if(!gameboard1[x][y].isAlive()){
+            gameboard1[x][y].setFruit(true);
+        }else{
+            generateFruit();
+        }
+    }
+
+    //movement method for move right
     public void snakeRight() {
         moves++;
         for (int row = 0; row < gameboard1.length; row++) {
@@ -188,7 +209,7 @@ public class Gameboard {
                             gameboard1[row][column].setLeading(false);
                             gameboard1[row][column + 1].setAlive(true);
                             gameboard1[row][column + 1].setFruit(false);
-                            setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
+                            generateFruit();
                             gameboard1[row][column + 1].setCount(gameboard1[row][column].getCount() + 1);
                             gameboard1[row][column + 1].setLeading(true);
                         }
@@ -211,6 +232,7 @@ public class Gameboard {
         }
     }
 
+    //movement method for move left
     public void snakeLeft() {
         moves++;
         for (int row = 0; row < gameboard1.length; row++) {
@@ -228,7 +250,7 @@ public class Gameboard {
                             gameboard1[row][column].setLeading(false);
                             gameboard1[row][column - 1].setAlive(true);
                             gameboard1[row][column - 1].setFruit(false);
-                            setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
+                            generateFruit();
                             gameboard1[row][column - 1].setCount(gameboard1[row][column].getCount() + 1);
                             gameboard1[row][column - 1].setLeading(true);
                         }
@@ -251,6 +273,8 @@ public class Gameboard {
             }
         }
     }
+
+    //movement method for move up
     public void snakeUp() {
         moves++;
         for (int row = 0; row < gameboard1.length; row++) {
@@ -269,7 +293,7 @@ public class Gameboard {
                             gameboard1[row][column].setLeading(false);
                             gameboard1[row -1][column].setAlive(true);
                             gameboard1[row-1][column].setFruit(false);
-                            setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
+                            generateFruit();
                             gameboard1[row-1][column].setCount(gameboard1[row][column].getCount() + 1);
                             gameboard1[row-1][column].setLeading(true);
                         }
@@ -292,6 +316,8 @@ public class Gameboard {
             }
         }
     }
+
+    //movement method for move down
     public void snakeDown(){
         moves++;
         for (int row = 0; row < gameboard1.length; row++) {
@@ -309,7 +335,7 @@ public class Gameboard {
                             gameboard1[row][column].setLeading(false);
                             gameboard1[row + 1][column].setAlive(true);
                             gameboard1[row + 1][column].setFruit(false);
-                            setFruits((int) (Math.random() * getGameboard1().length), (int) (Math.random() * getGameboard1().length));
+                            generateFruit();
                             gameboard1[row + 1][column].setCount(gameboard1[row][column].getCount() + 1);
                             gameboard1[row + 1][column].setLeading(true);
                         }
