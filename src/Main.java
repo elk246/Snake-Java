@@ -9,31 +9,43 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
+        Scanner scan = new Scanner(System.in);
+        String answer;
 
         // add new classes
         Gameboard gameboard = new Gameboard();
         Spawn spawn = new Spawn();
+        Title title = new Title();
+
+        title.createTitle();
+        spawn.setFont(title);
+        title.printTitle();
 
 
-        // create the gameboard
-        gameboard.createGameboard();
-
-        //set all objects on gameboard
-        spawn.setFruits(gameboard);
-        spawn.setSnake(gameboard);
-
-        System.out.println("Press ENTER to start snake");
-    while(true) {
         System.out.println("");
-        gameboard.printGameboard();
-
-        gameboard.checkInput(1000);
-        gameboard.checkIfAlive();
-
-}
+        System.out.println("Press S to start snake");
+        answer = scan.next();
 
 
+        if (answer.equals("S") || answer.equals("s")) {
+
+            // create the gameboard
+            gameboard.createGameboard();
+
+            //set all objects on gameboard
+
+            spawn.setFruits(gameboard);
+            spawn.setSnake(gameboard);
+
+
+            while (true) {
+                System.out.println("");
+                gameboard.printGameboard();
+
+                gameboard.checkInput(500);
+                gameboard.checkIfAlive();
+            }
+        }
     }
-
 }
 

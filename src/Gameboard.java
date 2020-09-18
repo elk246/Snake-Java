@@ -10,16 +10,17 @@ public class Gameboard {
 
 
     // count the snake length
-    private int count;
     private int moves;
     private int score;
-    private boolean isASnake;
+
 
     //create gameboard array
-    private Cell[][] gameboard1 = new Cell[20][20];
+    private Cell[][] gameboard1 = new Cell[15][15];
+
 
     //gameboard getter
     public Cell[][] getGameboard1() {
+
         return gameboard1;
     }
 
@@ -30,6 +31,7 @@ public class Gameboard {
     }
 
     public void leadingCell(int x, int y) {
+
         gameboard1[x][y].setLeading(true);
     }
 
@@ -48,10 +50,11 @@ public class Gameboard {
         }
     }
 
-    // create new gameboard
-    public void createGameboard() throws InterruptedException {
 
-        Thread.sleep(400);
+
+
+    // create new gameboard
+    public void createGameboard() {
 
         for (int row = 0; row < gameboard1.length; row++) {
             for (int column = 0; column < gameboard1[row].length; column++) {
@@ -60,6 +63,7 @@ public class Gameboard {
             }
         }
     }
+
 
     //check input
     public void checkInput(int speed) {
@@ -85,7 +89,7 @@ public class Gameboard {
             move = bufferedReader.readLine().charAt(0);
             timerTask.cancel();
 
-            if (move == 's' && prev_move == 'w') {
+            if (move == '0' && prev_move == 'w') {
                 move = prev_move;
             } else {
                 prev_move = move;
@@ -95,7 +99,6 @@ public class Gameboard {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         try {
             if (move == 'w') {
 
@@ -117,13 +120,10 @@ public class Gameboard {
                 snakeRight();
                 checkIfAlive();
                 printGameboard();
-
             }
         } catch (Exception e) {
-
         }
     }
-
 
     //print gameboard
     public void printGameboard() {
@@ -145,10 +145,7 @@ public class Gameboard {
                     if (!gameboard1[row][column].isAlive()) {
                         System.out.print(" . ");
                     }
-
-
                 }
-
             }
         }
     }
@@ -163,7 +160,6 @@ public class Gameboard {
             }
         }
     }
-
     public void snakeRight() {
         moves++;
         for (int row = 0; row < gameboard1.length; row++) {
@@ -233,7 +229,6 @@ public class Gameboard {
                         }
                         return;
 
-
                     }catch ( Exception e){
                         System.out.println("\uD83D\uDC80 GAME OVER! \uD83D\uDC80");
                         System.out.println("\uD83D\uDD01 Moves: " + moves);
@@ -286,7 +281,6 @@ public class Gameboard {
             }
         }
     }
-
     public void snakeDown(){
         moves++;
         for (int row = 0; row < gameboard1.length; row++) {
@@ -327,25 +321,3 @@ public class Gameboard {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
